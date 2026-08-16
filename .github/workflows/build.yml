@@ -1,0 +1,38 @@
+name: Build BLHX Agent Image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build BLHX Agent Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          tags: blhx-agent:latest
+          outputs: type=docker,dest=/tmp/blhx-agent.tar
+          # 平台要求 ≤3GB；DS Harness 全量依赖约 1-2GB
+
+      - name: Compress image
+        run: gzip -f /tmp/blhx-agent.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: blhx-agent
+          path: /tmp/blhx-agent.tar.gz
+          retention-days: 7

@@ -1,0 +1,28 @@
+# Node
+node_modules/
+*.tsbuildinfo
+.pnpm-store/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Run artifacts
+runs/
+
+# Env / secrets
+.env
+.env.local
+*.pem
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# DSH
+.dsh/
+.sessions/
+artifact/
