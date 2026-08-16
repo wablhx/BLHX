@@ -4,7 +4,8 @@
 # 构建：docker build -t blhx-agent .
 # 导出：docker save blhx-agent | gzip > blhx-agent.tar.gz
 
-FROM node:22-slim AS base
+FROM node:24-slim AS base
+# node:24 修复：Node22 require(ESM) 循环 bug 导致插件加载崩溃（ERR_REQUIRE_CYCLE_MODULE）
 
 # ── 基础工具（渗透测试常用；比赛闭卷环境不能联网装，全预装）──
 RUN apt-get update && apt-get install -y --no-install-recommends \
