@@ -52,7 +52,10 @@ RUN mkdir -p /root/.agents && cp -r /opt/blhx/skills /root/.agents/skills
 COPY agent/ackem-tsecbench.patch.yml /root/.dsh/profiles/headless/cordis.patch.yml
 RUN mkdir -p /root/.dsh/profiles/headless/plugins \
     && cp /opt/blhx/plugins/tsec-benchmark.ts /root/.dsh/profiles/headless/plugins/ \
-    && cp /opt/blhx/plugins/kali-bash.ts /root/.dsh/profiles/headless/plugins/
+    && cp /opt/blhx/plugins/kali-bash.ts /root/.dsh/profiles/headless/plugins/ \
+    # 插件模块解析：profile 目录向上找 node_modules 找不到 @deepseek-ai/*（依赖在 /opt/dsh），
+    # 用符号链接把 profile 的 node_modules 指向 dsh 的依赖（ESM import 不读 NODE_PATH，必须用链接）
+    && ln -s /opt/dsh/node_modules /root/.dsh/profiles/node_modules
 
 # ── 平台网关：模型走 http://api.deepseek.com.tsecbench.gw/v1 ──
 ENV DEEPSEEK_BASE_URL=http://api.deepseek.com.tsecbench.gw/v1
