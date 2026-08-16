@@ -56,9 +56,8 @@
       [未完成] 有证据但未成功的路径 / [后续] 接续测试建议。
 
 # ── 挂载自研插件 ────────────────────────────────────────────────
+# ⚠️ kali-bash 已移除：ES Module 在 Node22 下 require 崩溃(ERR_REQUIRE_CYCLE_MODULE)，
+#    且比赛沙箱无 Kali VM，纯死代码。比赛只用 tsec-benchmark。
 - insert:
     - id: tsec-benchmark
       name: './plugins/tsec-benchmark.ts'
-
-    - id: kali-bash
-      name: './plugins/kali-bash.ts'
